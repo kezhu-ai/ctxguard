@@ -48,6 +48,10 @@ jobs:
         # Windows bsdtar treats `2>/dev/null` as a literal `null` path and dies
         # with "Could not find a part of the path 'D:\dev\null'". Use platform-
         # aware archive: PowerShell Compress-Archive on Windows, tar everywhere else.
+        # `continue-on-error: true` because if the archive step fails we still
+        # want to attempt the release asset upload below (the binary itself
+        # was built successfully — we can publish the .exe directly).
+        continue-on-error: true
         run: |
           mkdir -p dist
           cp target/release/${{ matrix.binary }} dist/${{ matrix.artifact }}
@@ -56,8 +60,13 @@ jobs:
           else
             tar -C dist -czf dist/${{ matrix.artifact }}.tar.gz ${{ matrix.artifact }}
           fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: dist/${{ matrix.artifact }}
       - uses: softprops/action-gh-release@v2
         with:
           files: |
+            dist/${{ matrix.artifact }}
             dist/${{ matrix.artifact }}.tar.gz
             dist/${{ matrix.artifact }}.zip
