@@ -1,5 +1,6 @@
 //! Session-level token summary types.
 
+use std::collections::HashMap;
 use tabled::{Table, Tabled};
 
 #[derive(Debug, Clone)]
@@ -74,6 +75,55 @@ impl TokenSummary {
             total_ctx
         );
     }
+
+    pub fn print_by(summaries: &[TokenSummary], dim: ByDim) {
+        if summaries.is_empty() {
+            println!("(no sessions in window)");
+            return;
+        }
+        let mut buckets: HashMap<String, u64> = HashMap::new();
+        for s in summaries {
+            let key = match dim {
+                ByDim::Model => s.model.clone().unwrap_or_else(|| "unknown".into()),
+                ByDim::Day => s.first_ts.as_deref()
+                    .and_then(|t| t.get(..10).map(String::from))
+                    .unwrap_or_else(|| "unknown".into()),
+                ByDim::Hour => s.first_ts.as_deref()
+                    .and_then(|t| t.get(..13).map(String::from))
+                    .unwrap_or_else(|| "unknown".into()),
+                ByDim::File => s.file.rsplit(|c| c == '/' || c == '\\')
+                    .next().unwrap_or(&s.file).to_string(),
+            };
+            *buckets.entry(key).or_insert(0) += s.effective_context();
+        }
+        let mut sorted: Vec<(String, u64)> = buckets.into_iter().collect();
+        sorted.sort_by(|a, b| b.1.cmp(&a.1));
+        let total: u64 = sorted.iter().map(|(_, v)| v).sum();
+        println!("effective context by {} (top 20):", dim.label());
+        println!("{:<50}  {:>12}  {:>6}", dim.label(), "ctx_tokens", "%");
+        for (k, v) in sorted.iter().take(20) {
+            let pct = if total > 0 { v * 100 / total } else { 0 };
+            println!("{:<50}  {:>12}  {:>5}%", truncate(k, 50), compact(*v), pct);
+        }
+        if sorted.len() > 20 {
+            println!("... and {} more", sorted.len() - 20);
+        }
+        println!("\ntotal: {} across {} {} buckets", compact(total), sorted.len(), dim.label());
+    }
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum ByDim { Model, Day, Hour, File }
+
+impl ByDim {
+    pub fn label(&self) -> &'static str {
+        match self {
+            ByDim::Model => "model",
+            ByDim::Day => "day",
+            ByDim::Hour => "hour",
+            ByDim::File => "file",
+        }
+    }
 }
 
 #[derive(Tabled)]
@@ -125,4 +175,8 @@ fn compact(n: u64) -> String {
     } else {
         n.to_string()
     }
+}
+
+fn truncate(s: &str, max: usize) -> String {
+    if s.len() <= max { s.to_string() } else { format!("{}…", &s[..max.saturating_sub(1)]) }
 }

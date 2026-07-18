@@ -45,6 +45,8 @@ cargo install ctxguard
 brew install ctxguard   # coming soon
 ```
 
+[![CI](https://github.com/zhuke-ai/ctxguard/actions/workflows/ci.yml/badge.svg)](https://github.com/zhuke-ai/ctxguard/actions)
+
 ## Usage
 
 ```bash

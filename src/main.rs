@@ -40,6 +40,9 @@ enum Cmd {
     Profile {
         #[arg(long, default_value_t = 7)]
         days: u32,
+        /// Group and rank by model | day | hour | file
+        #[arg(long, value_parser = ["model", "day", "hour", "file"])]
+        by: Option<String>,
     },
 
     /// Wrap an AI agent and enforce a context budget in real time.
@@ -84,9 +87,15 @@ fn main() -> Result<()> {
                 .with_context(|| format!("failed to parse {}", file.display()))?;
             summary.print_human();
         }
-        Cmd::Profile { days } => {
+        Cmd::Profile { days, by } => {
             let summaries = profile_recent(days)?;
-            TokenSummary::print_table(&summaries);
+            match by.as_deref() {
+                Some("model") => TokenSummary::print_by(&summaries, session::ByDim::Model),
+                Some("day") => TokenSummary::print_by(&summaries, session::ByDim::Day),
+                Some("hour") => TokenSummary::print_by(&summaries, session::ByDim::Hour),
+                Some("file") => TokenSummary::print_by(&summaries, session::ByDim::File),
+                _ => TokenSummary::print_table(&summaries),
+            }
         }
         Cmd::Run { budget, on_full, poll_ms, session, cmd } => {
             run_with_budget(budget, &on_full, poll_ms, session, cmd)?;
