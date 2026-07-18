@@ -4,6 +4,13 @@
 
 ![demo](assets/demo.svg)
 
+[![CI](https://img.shields.io/github/actions/workflow/status/zhuke-ai/ctxguard/ci.yml?branch=master&label=CI)](https://github.com/zhuke-ai/ctxguard/actions)
+[![release](https://img.shields.io/github/v/release/zhuke-ai/ctxguard?label=release)](https://github.com/zhuke-ai/ctxguard/releases/latest)
+[![license](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE-MIT)
+![stars](https://img.shields.io/github/stars/zhuke-ai/ctxguard?style=social)
+[![crates.io](https://img.shields.io/crates/v/ctxguard.svg)](https://crates.io/crates/ctxguard)
+[![Rust](https://img.shields.io/badge/rust-1.74%2B-orange.svg)](https://www.rust-lang.org)
+
 ## Why
 
 A typical 30-minute Claude Code session re-reads `auth.ts` 30 times. prompt caching hides this

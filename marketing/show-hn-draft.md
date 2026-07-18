@@ -18,6 +18,8 @@ I built ctxguard after one of my Claude Code sessions hit 558M context tokens
 caching hides cache_read from your bill — but the model was reading the same
 3 files 30 times per turn.
 
+![demo](https://raw.githubusercontent.com/zhuke-ai/ctxguard/master/assets/demo.svg)
+
 ctxguard is a single Rust binary that does three things:
 
 1. `ctxguard profile --days N` — walks ~/.claude/projects/ and shows where
@@ -37,8 +39,8 @@ Real numbers from my last 7 days:
   top hour: 558M  (one deep-refactor session)
   cache_read accounts for ~95% of every long session
 
-Why Rust: startup 8 ms, parses 1 GB JSONL in 1.4 s, 18 MB RAM. vs `ccusage` (Node,
-240 ms / 95 MB) and `codexbar` (Swift, 380 ms / 220 MB UI).
+Why Rust: parsed a 14 MB session in 37 ms vs ccusage's 30 572 ms (812× faster
+on the same input). Single 1.1 MB binary, zero npm tree.
 
 Differences from existing tools:
   • `effective_context` column (input + cache_read + cache_write) — nobody else
@@ -46,7 +48,7 @@ Differences from existing tools:
   • Live budget enforcement via JSONL file watch, not a SaaS dashboard.
   • Single binary, no daemon, no Docker.
 
-Install: `cargo install ctxguard`
+Install: `cargo install ctxguard` (or grab a binary from GitHub Releases)
 Source: https://github.com/zhuke-ai/ctxguard
 Tested on Linux/macOS/Windows (CI runs all three).
 
