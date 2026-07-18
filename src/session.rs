@@ -106,12 +106,12 @@ impl TokenSummary {
             *buckets.entry(key).or_insert(0) += s.effective_context();
         }
         let mut sorted: Vec<(String, u64)> = buckets.into_iter().collect();
-        sorted.sort_by(|a, b| b.1.cmp(&a.1));
+        sorted.sort_by_key(|b| std::cmp::Reverse(b.1));
         let total: u64 = sorted.iter().map(|(_, v)| v).sum();
         println!("effective context by {} (top 20):", dim.label());
         println!("{:<50}  {:>12}  {:>6}", dim.label(), "ctx_tokens", "%");
         for (k, v) in sorted.iter().take(20) {
-            let pct = if total > 0 { v * 100 / total } else { 0 };
+            let pct = v.checked_mul(100).and_then(|n| n.checked_div(total)).unwrap_or(0);
             println!("{:<50}  {:>12}  {:>5}%", truncate(k, 50), compact(*v), pct);
         }
         if sorted.len() > 20 {
