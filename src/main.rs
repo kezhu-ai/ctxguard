@@ -251,6 +251,11 @@ fn most_recent_session() -> Result<Option<PathBuf>> {
     most_recent_session_in(&root, "")
 }
 
+#[allow(dead_code)]
+fn _unused_most_recent_session() -> Result<Option<PathBuf>> {
+    most_recent_session()
+}
+
 fn parse_file(path: &PathBuf) -> Result<TokenSummary> {
     use std::fs::File;
     use std::io::{BufRead, BufReader};
@@ -405,7 +410,7 @@ fn parse_for_tool(tool: &str, path: &PathBuf) -> Result<TokenSummary> {
 ///   - turn_context: model + instructions per turn
 ///   - response_item / message / function_call: per-step tool/assistant I/O
 ///   - event_msg / token_count: contains payload.info.{total_token_usage,
-///       last_token_usage, model_context_window} (often info=null at start)
+///     last_token_usage, model_context_window} (often info=null at start)
 fn parse_codex_file(path: &PathBuf) -> Result<TokenSummary> {
     use std::fs::File;
     use std::io::{BufRead, BufReader};
@@ -421,7 +426,6 @@ fn parse_codex_file(path: &PathBuf) -> Result<TokenSummary> {
     let mut first_ts: Option<String> = None;
     let mut last_ts: Option<String> = None;
     let mut model: Option<String> = None;
-    let mut model_context_window: Option<u64> = None;
 
     for line in reader.lines() {
         let line = line?;
@@ -464,17 +468,17 @@ fn parse_codex_file(path: &PathBuf) -> Result<TokenSummary> {
                                 output_tokens = tot.get("output_tokens").and_then(|v| v.as_u64()).unwrap_or(0);
                                 cache_read = tot.get("cached_input_tokens").and_then(|v| v.as_u64()).unwrap_or(0);
                             }
-                            if let Some(ctx) = info.get("model_context_window").and_then(|v| v.as_u64()) {
-                                model_context_window = Some(ctx);
-                            }
+                            // model_context_window lives in info; we currently
+                            // don't surface it in TokenSummary but keep the
+                            // reader aware that it's available.
+                            let _ = info.get("model_context_window");
                         }
                     }
                 }
-                // task_started carries initial model_context_window
+                // task_started carries initial model_context_window; not
+                // surfaced yet but the field is documented in the schema.
                 if p.get("type").and_then(|v| v.as_str()) == Some("task_started") {
-                    if let Some(ctx) = p.get("model_context_window").and_then(|v| v.as_u64()) {
-                        model_context_window = Some(ctx);
-                    }
+                    let _ = p.get("model_context_window");
                 }
             }
         }
