@@ -2,6 +2,8 @@
 
 > Context-window budget enforcer for AI coding agents — `ulimit` for Claude Code, Codex, and Aider.
 
+![demo](assets/demo.svg)
+
 ## Why
 
 A typical 30-minute Claude Code session re-reads `auth.ts` 30 times. prompt caching hides this

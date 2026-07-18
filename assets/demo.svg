@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+  <!-- Background -->
+  <rect width="1200" height="720" fill="#1e1e2e"/>
+  <!-- Window chrome -->
+  <rect x="0" y="0" width="1200" height="36" fill="#181825"/>
+  <circle cx="20" cy="18" r="6" fill="#f38ba8"/>
+  <circle cx="40" cy="18" r="6" fill="#f9e2af"/>
+  <circle cx="60" cy="18" r="6" fill="#a6e3a1"/>
+  <text x="600" y="22" fill="#6c7086" font-size="13" text-anchor="middle">~ zhu</text>
+
+  <!-- Terminal body -->
+  <g transform="translate(0,36)">
+    <rect width="1200" height="684" fill="#1e1e2e"/>
+
+    <!-- Line 1: prompt + version -->
+    <text x="40" y="48" fill="#a6e3a1" font-size="20">$</text>
+    <text x="64" y="48" fill="#cdd6f4" font-size="20">ctxguard --version</text>
+    <text x="40" y="86" fill="#f9e2af" font-size="20">ctxguard 0.1.0</text>
+
+    <!-- Line 2: blank -->
+    <!-- Line 3: prompt + profile -->
+    <text x="40" y="140" fill="#a6e3a1" font-size="20">$</text>
+    <text x="64" y="140" fill="#cdd6f4" font-size="20">ctxguard profile --days 7 --by day</text>
+
+    <!-- Output: header -->
+    <text x="40" y="184" fill="#89b4fa" font-size="18">effective context by day (top 20):</text>
+    <text x="40" y="216" fill="#6c7086" font-size="18">day                              ctx_tokens         %</text>
+
+    <!-- Rows -->
+    <text x="40" y="252" fill="#cdd6f4" font-size="18">2026-07-14                          845.6M      39%</text>
+    <text x="40" y="284" fill="#cdd6f4" font-size="18">2026-07-11                          404.7M      19%</text>
+    <text x="40" y="316" fill="#cdd6f4" font-size="18">2026-07-18                          364.6M      17%</text>
+    <text x="40" y="348" fill="#cdd6f4" font-size="18">2026-07-17                          192.1M       9%</text>
+    <text x="40" y="380" fill="#cdd6f4" font-size="18">2026-07-16                          190.8M       8%</text>
+    <text x="40" y="412" fill="#cdd6f4" font-size="18">2026-07-15                           98.7M       4%</text>
+    <text x="40" y="444" fill="#cdd6f4" font-size="18">2026-07-13                           25.2M       1%</text>
+
+    <!-- Footer -->
+    <text x="40" y="488" fill="#89b4fa" font-size="18">total: 2.1B across 7 day buckets</text>
+
+    <!-- Highlight -->
+    <text x="40" y="540" fill="#f38ba8" font-size="22" font-weight="bold">↑ 2.1 BILLION context tokens in 7 days, hidden in cache_read</text>
+
+    <!-- Next prompt -->
+    <text x="40" y="600" fill="#a6e3a1" font-size="20">$</text>
+    <text x="64" y="600" fill="#cdd6f4" font-size="20">ctxguard run --budget 80000 --on-full warn \</text>
+    <text x="64" y="632" fill="#cdd6f4" font-size="20">  -- claude "refactor auth.ts"</text>
+    <text x="40" y="664" fill="#f38ba8" font-size="18">[ctxguard] BUDGET HIT: effective_context=84731 &gt;= budget=80000</text>
+  </g>
+</svg>
