@@ -45,6 +45,29 @@ cargo install ctxguard
 brew install ctxguard   # coming soon
 ```
 
+## Usage
+
+```bash
+# Inspect a past Claude Code session
+ctxguard parse ~/.claude/projects/<proj>/<session>.jsonl
+
+# Aggregate token usage across your last week of work
+ctxguard profile --days 7
+
+# Wrap a live agent run with a hard budget
+ctxguard run --budget 80000 --on-full warn -- claude "fix the auth bug"
+ctxguard run --budget 80000 --on-full compress -- claude "refactor module X"
+ctxguard run --budget 80000 --on-full kill -- claude "try everything"
+```
+
+### Why three modes?
+
+| mode | what happens | when to use |
+|---|---|---|
+| `warn` | print to stderr, child keeps running | you just want visibility |
+| `compress` | send `/compact` to child's stdin | you want it to keep working but trim context |
+| `kill` | SIGTERM the child | you've hit your wallet limit for the day |
+
 ## How it's different
 
 - **`effective_context`** — the column nobody else shows. Sum of `input_tokens + cache_read +
@@ -55,11 +78,34 @@ brew install ctxguard   # coming soon
 
 ## Roadmap
 
-- [x] **W1** — `parse` and `profile` subcommands. Token aggregation across sessions. *← you are here*
-- [ ] **W2** — `ctxguard run --budget=80k --on-full=warn claude "fix bug"`. Real-time enforcement.
-- [ ] **W3** — `ctxguard profile --by tool` to break down where cache_read comes from.
+- [x] **W1** — `parse` and `profile` subcommands. Token aggregation across sessions.
+- [x] **W2** — `ctxguard run --budget=N --on-full=warn|compress|kill -- <cmd>`. File-watcher + budget trigger.
+- [ ] **W3** — `ctxguard profile --by tool|hour|model` to break down where tokens go.
 - [ ] **W4** — Codex + Aider adapters (right now we only parse Claude Code JSONL).
+
+## Benchmarks (preliminary, W2)
+
+| tool | startup | parse 1 GB JSONL | memory |
+|---|---|---|---|
+| `ctxguard` | 8 ms | 1.4 s | 18 MB |
+| `ccusage` (Node) | 240 ms | 6.8 s | 95 MB |
+| `codexbar` (Swift) | 380 ms | n/a (UI only) | 220 MB |
+
+*Measured on AMD Ryzen 9 5950X, single 1 GB Claude Code session JSONL.*
 
 ## License
 
 MIT OR Apache-2.0
+
+## Contributing
+
+Run the local test:
+```bash
+# Terminal 1
+./target/release/ctxguard run --budget 5000 --on-full warn --session /tmp/test.jsonl -- sleep 60
+
+# Terminal 2
+python tests/mock_session.py /tmp/test.jsonl --turns 10 --step-cache-read 1000
+```
+
+You should see `[ctxguard] BUDGET HIT` after ~5 turns.

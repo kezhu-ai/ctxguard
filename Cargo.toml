@@ -17,6 +17,7 @@ walkdir = "2"
 anyhow = "1"
 chrono = { version = "0.4", features = ["serde"] }
 tabled = "0.15"
+notify = { version = "6", features = ["macos_fsevent"] }
 
 [profile.release]
 opt-level = 3
