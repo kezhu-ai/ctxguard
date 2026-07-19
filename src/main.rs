@@ -267,7 +267,7 @@ fn parse_file(path: &PathBuf) -> Result<TokenSummary> {
     let mut input_tokens = 0u64;
     let mut output_tokens = 0u64;
     let mut cache_read = 0u64;
-    let cache_write = 0u64; // Codex doesn't track cache_creation; constant 0 is correct
+    let mut cache_write = 0u64; // Claude parser accumulates
     let mut first_ts: Option<String> = None;
     let mut last_ts: Option<String> = None;
     let mut model: Option<String> = None;
@@ -422,7 +422,7 @@ fn parse_codex_file(path: &PathBuf) -> Result<TokenSummary> {
     let mut input_tokens = 0u64;
     let mut output_tokens = 0u64;
     let mut cache_read = 0u64;
-    let cache_write = 0u64; // Codex doesn't track cache_creation; constant 0 is correct
+    let mut cache_write = 0u64; // Claude parser accumulates
     let mut first_ts: Option<String> = None;
     let mut last_ts: Option<String> = None;
     let mut model: Option<String> = None;
