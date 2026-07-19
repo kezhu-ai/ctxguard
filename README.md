@@ -133,6 +133,16 @@ history grows.
 
 Run it yourself: `./bench.sh <path-to-session.jsonl>`.
 
+## See also — other kezhu-ai AI dev tools
+
+ctxguard is one of four Rust CLIs in the same family:
+
+- **[recall-ai](https://github.com/kezhu-ai/recall-ai)** — search every AI conversation you've ever had, locally (SQLite FTS5 index of ChatGPT / Claude / Claude Code / Codex exports)
+- **[pinpoint](https://github.com/kezhu-ai/pinpoint)** — your `~/.bash_history` but for AI prompts. Save, search, replay. One-line `pp` shell helper.
+- **[mcp-sentry](https://github.com/kezhu-ai/mcp-sentry)** — policy-as-code firewall for MCP servers. Approve / deny / audit every `tools/call`.
+
+Built together as a kit: **pinpoint** to save the prompts you care about, **ctxguard** to budget how often the agent gets to use them, **recall-ai** to search every conversation for that one prompt you forgot to save, and **mcp-sentry** to make sure the agent can't read `~/.ssh` while doing it.
+
 ## License
 
 MIT OR Apache-2.0
