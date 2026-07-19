@@ -8,7 +8,7 @@ the model load, without paying the cache_read tax.
 ```bash
 # Install
 cargo install ctxguard
-# or:  curl -fsSL https://raw.githubusercontent.com/kezhu-20070607/ctxguard/master/install.sh | sh
+# or:  curl -fsSL https://raw.githubusercontent.com/kezhu-ai/ctxguard/master/install.sh | sh
 ```
 
 ## Run with budget

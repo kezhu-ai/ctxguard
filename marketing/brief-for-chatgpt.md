@@ -14,13 +14,13 @@
 
 | 项 | 状态 |
 |---|---|
-| GitHub repo | https://github.com/kezhu20070607-dotcom/ctxguard |
-| v0.2.0 release | https://github.com/kezhu20070607-dotcom/ctxguard/releases/tag/v0.2.0 |
+| GitHub repo | https://github.com/kezhu-ai/ctxguard |
+| v0.2.0 release | https://github.com/kezhu-ai/ctxguard/releases/tag/v0.2.0 |
 | Stars / Watchers | 0 / 0 |
 | 平台支持 | macOS Apple Silicon (aarch64) + Linux x86_64 |
 | Windows | 🟡 release 卡在 GitHub Actions macOS x86_64 队列 |
 | Display name | 祝可 |
-| Username | kezhu20070607-dotcom（用户想改 kezhu-20070607 但 API 改不了，需浏览器手动） |
+| Username | kezhu-ai（最终选定 — 之前曾想改 kezhu-20070607 但 API 不支持，最终保留 kezhu-ai） |
 | 关键素材 | README + SKILL.md + examples/ + CHANGELOG + LICENSE + install.sh + bench.sh + Show HN 草稿 + 真 demo.gif |
 
 ## 当前定位
@@ -107,7 +107,7 @@ ctxguard run --budget 150000 --on-full compress -- claude "refactor auth.ts"
 - memmap2 for zero-copy JSONL parsing
 
 **我卡住的几个问题**:
-1. Username 改 kezhu-20070607 写进了 README 但实际 GitHub 上 repo 还在 kezhu20070607-dotcom（README 8 处 broken link）
+1. Username 早期曾想改 kezhu-20070607，但 GitHub API 不支持 username 字段，最终用户决定保留 kezhu-ai 作为主账号
 2. 3 个 GitHub PAT 在本次 ChatGPT 对话历史里出现过 → 长期泄露 → 必须用户手动撤销
 3. v0.2.0 release 缺 Windows binary (GitHub macOS x86_64 runner 队列长)
 4. render-demo workflow vhs 失败 (exit 128, cwd 路径异常)

@@ -46,7 +46,7 @@ history:
 
 ```bash
 cargo install ctxguard
-# or grab a binary from https://github.com/kezhu-20070607/ctxguard/releases
+# or grab a binary from https://github.com/kezhu-ai/ctxguard/releases
 ```
 
 ## Notes for Claude

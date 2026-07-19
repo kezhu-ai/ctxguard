@@ -16,7 +16,7 @@
 |---|---|---|
 | **ChatGPT 网页版** | brainstorming, strategy, market research, 写作 | 只能输出文字 (代码要在 Claude Code 里写) |
 | **Claude Code (MiniMax-M3)** | coding, debugging, deep research (workflow agent), git 操作, GitHub API | 中文 developer, 本机 Windows 11 + Rust 1.94 + Python 3.13 + Node 24 + GitHub CLI |
-| **GitHub** | repo hosting, Actions CI, Releases, Issues | 已有 kezhu-ai (恢复后) + kezhu20070607-dotcom 两个账号 |
+| **GitHub** | repo hosting, Actions CI, Releases, Issues | 已有 kezhu-ai (恢复后) + kezhu-ai 两个账号 |
 | **mcp__plugin__context7** | 实时查库文档 | 这次可能不需要 |
 | **browser automation 栈** | cloakbrowser + firecrawl + agent-reach (13 平台) + intelligence-gather skill | 做 research / 抓社区帖子 |
 | **deep-research workflow** | 调研流水线 (multi-agent parallel + adversarial verify) | 但上次跑抓 Reddit/HN 翻车过，需要走直连 API 路径 |
@@ -32,7 +32,7 @@
 - 真数据: 812x faster than ccusage, 2.1B context tokens 真实发现
 - Display name "祝可", bio 设置
 - **0 stars / 0 watchers** (截至 2026-07-19)
-- 当前 mirror 到两个账号: `kezhu-ai/ctxguard` + `kezhu20070607-dotcom/ctxguard`
+- 当前 mirror 到两个账号: `kezhu-ai/ctxguard` + `kezhu-ai/ctxguard`
 
 **ctxguard 是我的 "trail run" 试水项目**, 我想从中学习经验, 然后用同样工作流**做下一个更可能爆的项目**。
 
